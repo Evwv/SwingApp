@@ -7,12 +7,11 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CreateBook extends JFrame {
+public class CreateBook extends JDialog {
 
     private Book book = new Book();
 
     public CreateBook() {
-        super("TestApp");
 
         JTextField nameBook = createNameBook();
 
@@ -25,15 +24,23 @@ public class CreateBook extends JFrame {
         JTextField dateOfWriting = createDateOfWriting();
 
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        jPanel.add(new JLabel("Название книги:"));
         jPanel.add(nameBook);
+        jPanel.add(new JLabel("Имя автора"));
         jPanel.add(nameAuthor);
+        jPanel.add(new JLabel("Пол автора"));
         jPanel.add(genderAuthor);
+        jPanel.add(new JLabel("Цена книги:"));
         jPanel.add(priceBook);
+        jPanel.add(new JLabel("Дата написания:"));
         jPanel.add(dateOfWriting);
+
         JButton create = create();
         jPanel.add(create,BorderLayout.AFTER_LAST_LINE);
+
         setContentPane(jPanel);
-        setSize(550,220);
+        setSize(550,400);
         setLocation(300,300);
         setVisible(true);
     }
@@ -52,10 +59,18 @@ public class CreateBook extends JFrame {
         create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                save(book);
-                Swing swing = new Swing();
-                dispose();
-                swing.start();
+                int x = JOptionPane.showConfirmDialog(CreateBook.this,
+                        "Введеная информация вас устраивает? "
+                        ,"Error",JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(CreateBook.this,"Книга добавлена в хранилище");
+                    save(book);
+                    Swing swing = new Swing();
+                    dispose();
+                    swing.start();
+                } else {
+                    JOptionPane.showMessageDialog(CreateBook.this,"У вас есть возможность исправиться");
+                }
             }
         });
         create.setBackground(Color.PINK);
@@ -64,10 +79,12 @@ public class CreateBook extends JFrame {
     }
 
     private JTextField createNameAuthor() {
-        JTextField nameAuthor = new JTextField("Имя Автора",40);
+        JTextField nameAuthor = new JTextField(40);
         create(nameAuthor);
         nameAuthor.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
+
                 book.setNameAuthor(nameAuthor.getText());
             }
         });
@@ -75,7 +92,7 @@ public class CreateBook extends JFrame {
     }
 
     private JTextField createNameBook() {
-        JTextField nameBook = new JTextField("Название книги",40);
+        JTextField nameBook = new JTextField(40);
         create(nameBook);
         nameBook.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -86,7 +103,7 @@ public class CreateBook extends JFrame {
     }
 
     private JTextField createGenderAuthor() {
-        JTextField genderAthor = new JTextField("Укажите пол автора",40);
+        JTextField genderAthor = new JTextField(40);
         create(genderAthor);
         genderAthor.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -97,7 +114,7 @@ public class CreateBook extends JFrame {
     }
 
     private JTextField createPriceBook() {
-        JTextField priceBook = new JTextField("Укажите стоимость книги",40);
+        JTextField priceBook = new JTextField(40);
         create(priceBook);
         priceBook.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -108,7 +125,7 @@ public class CreateBook extends JFrame {
     }
 
     private JTextField createDateOfWriting() {
-        JTextField dateOfWriting = new JTextField("Укажите дату написания книги",40);
+        JTextField dateOfWriting = new JTextField(40);
         create(dateOfWriting);
         dateOfWriting.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -123,12 +140,4 @@ public class CreateBook extends JFrame {
         textField.setHorizontalAlignment(JTextField.LEFT);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CreateBook();
-            }
-        });
-    }
 }

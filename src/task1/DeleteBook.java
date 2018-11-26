@@ -6,9 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-public class DeleteBook extends JFrame {
+public class DeleteBook extends JDialog {
     public DeleteBook() {
-        super("DeleteBook");
 
         JTextField nameBook = createNameBook();
 
@@ -21,21 +20,31 @@ public class DeleteBook extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Delete(nameBook.getText(),nameAuthor.getText());
-                    Swing swing = new Swing();
-                    dispose();
-                    swing.start();
+                    int x = JOptionPane.showConfirmDialog(DeleteBook.this,
+                            "Вы действительно хотите удалить эту книгу? "
+                            ,"Error",JOptionPane.YES_NO_OPTION);
+                    if (x == JOptionPane.YES_OPTION) {
+                        JOptionPane.showMessageDialog(DeleteBook.this,"Книга удалена");
+                        Delete(nameBook.getText(),nameAuthor.getText());
+                        Swing swing = new Swing();
+                        dispose();
+                        swing.start();
+                    } else {
+                        JOptionPane.showMessageDialog(DeleteBook.this,"Мы спасли вас от случайного удаления");
+                    }
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
             }
         });
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        jPanel.add(new JLabel("Название книги"));
         jPanel.add(nameBook);
+        jPanel.add(new JLabel("Имя автора"));
         jPanel.add(nameAuthor);
         jPanel.add(delete,BorderLayout.SOUTH);
         setContentPane(jPanel);
-        setSize(400,130);
+        setSize(400,200);
         setLocation(300,300);
         setVisible(true);
     }
@@ -60,13 +69,13 @@ public class DeleteBook extends JFrame {
 
 
     private JTextField createNameAuthor() {
-        JTextField nameAuthor = new JTextField("Имя Автора",60);
+        JTextField nameAuthor = new JTextField(60);
         create(nameAuthor);
         return nameAuthor;
     }
 
     private JTextField createNameBook() {
-        JTextField nameBook = new JTextField("Название книги",60);
+        JTextField nameBook = new JTextField(60);
         create(nameBook);
         return nameBook;
     }
@@ -75,12 +84,4 @@ public class DeleteBook extends JFrame {
         textField.setHorizontalAlignment(JTextField.LEFT);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new DeleteBook();
-            }
-        });
-    }
 }
