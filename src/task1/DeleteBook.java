@@ -71,12 +71,32 @@ public class DeleteBook extends JDialog {
     private JTextField createNameAuthor() {
         JTextField nameAuthor = new JTextField(60);
         create(nameAuthor);
+        nameAuthor.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (nameAuthor.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(DeleteBook.this,"Поле не может быть пустым");
+                } else {
+                   String s = nameAuthor.getText();
+                }
+            }
+        });
         return nameAuthor;
     }
 
     private JTextField createNameBook() {
         JTextField nameBook = new JTextField(60);
         create(nameBook);
+        nameBook.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (nameBook.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(DeleteBook.this,"Поле не может быть пустым");
+                } else {
+                    String s = nameBook.getText();
+                }
+            }
+        });
         return nameBook;
     }
     private void create(JTextField  textField) {

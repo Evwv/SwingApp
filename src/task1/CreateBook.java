@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CreateBook extends JDialog {
+public class CreateBook extends JFrame {
 
     private Book book = new Book();
 
@@ -84,8 +84,12 @@ public class CreateBook extends JDialog {
         nameAuthor.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-
-                book.setNameAuthor(nameAuthor.getText());
+                if (nameAuthor.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(CreateBook.this,"Поле не может быть пустым");
+                } else {
+                    book.setNameAuthor(nameAuthor.getText());
+                }
             }
         });
         return nameAuthor;
@@ -96,7 +100,12 @@ public class CreateBook extends JDialog {
         create(nameBook);
         nameBook.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                book.setName(nameBook.getText());
+                if (nameBook.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(CreateBook.this,"Поле не может быть пустым");
+                } else {
+                    book.setName(nameBook.getText());
+                }
             }
         });
         return nameBook;
@@ -107,7 +116,12 @@ public class CreateBook extends JDialog {
         create(genderAthor);
         genderAthor.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                book.setGenderAuthor(genderAthor.getText());
+                if (genderAthor.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(CreateBook.this,"Поле не может быть пустым");
+                } else {
+                    book.setGenderAuthor(genderAthor.getText());
+                }
             }
         });
         return genderAthor;
@@ -118,7 +132,11 @@ public class CreateBook extends JDialog {
         create(priceBook);
         priceBook.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                book.setPrice(Integer.parseInt(priceBook.getText()));
+                try {
+                    book.setPrice(Integer.parseInt(priceBook.getText()));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(CreateBook.this,"Ошибка ввода, вам нужно указать цену в цифрах");
+                }
             }
         });
         return priceBook;
@@ -129,7 +147,12 @@ public class CreateBook extends JDialog {
         create(dateOfWriting);
         dateOfWriting.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                book.setDateOfWriting(dateOfWriting.getText());
+                if (dateOfWriting.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(CreateBook.this,"Поле не может быть пустым");
+                } else {
+                    book.setDateOfWriting(dateOfWriting.getText());
+                }
             }
         });
         return dateOfWriting;

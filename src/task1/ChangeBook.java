@@ -25,6 +25,7 @@ public class ChangeBook extends JDialog {
 
         JButton create = create();
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        jPanel.add(new JLabel("Формат ввод~>Старое значение,Новое значение"));
         jPanel.add(new JLabel("Старое название книги,Новое название:"));
         jPanel.add(nameBook);
         jPanel.add(new JLabel("Старое имя автора,Новое имя:"));
@@ -37,7 +38,7 @@ public class ChangeBook extends JDialog {
         jPanel.add(dateOfWriting);
         jPanel.add(create,BorderLayout.SOUTH);
         setContentPane(jPanel);
-        setSize(350,350);
+        setSize(400,350);
         setLocation(300,300);
         setVisible(true);
     }
@@ -92,26 +93,34 @@ public class ChangeBook extends JDialog {
     }
 
     private JTextField createNameAuthor() {
-        JTextField nameAuthor = new JTextField(20);
+        JTextField nameAuthor = new JTextField(30);
         create(nameAuthor);
         nameAuthor.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                StringTokenizer st = new StringTokenizer(nameAuthor.getText(),",");
-                book.setNameAuthor(st.nextToken());
-                bookNew.setNameAuthor(st.nextToken());
+                if (nameAuthor.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
+                } else {
+                    StringTokenizer st = new StringTokenizer(nameAuthor.getText(), ",");
+                    book.setNameAuthor(st.nextToken());
+                    bookNew.setNameAuthor(st.nextToken());
+                }
             }
         });
         return nameAuthor;
     }
 
     private JTextField createNameBook() {
-        JTextField nameBook = new JTextField(20);
+        JTextField nameBook = new JTextField(30);
         create(nameBook);
         nameBook.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                StringTokenizer st = new StringTokenizer(nameBook.getText(),",");
-                book.setName(st.nextToken());
-                bookNew.setName(st.nextToken());
+                if (nameBook.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
+                } else {
+                    StringTokenizer st = new StringTokenizer(nameBook.getText(), ",");
+                    book.setName(st.nextToken());
+                    bookNew.setName(st.nextToken());
+                }
             }
         });
         return nameBook;
@@ -119,13 +128,17 @@ public class ChangeBook extends JDialog {
 
 
     private JTextField createGenderAuthor() {
-        JTextField genderAthor = new JTextField(20);
+        JTextField genderAthor = new JTextField(30);
         create(genderAthor);
         genderAthor.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                StringTokenizer st = new StringTokenizer(genderAthor.getText(),",");
-                book.setGenderAuthor(st.nextToken());
-                bookNew.setGenderAuthor(st.nextToken());
+                if (genderAthor.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
+                } else {
+                    StringTokenizer st = new StringTokenizer(genderAthor.getText(), ",");
+                    book.setGenderAuthor(st.nextToken());
+                    bookNew.setGenderAuthor(st.nextToken());
+                }
             }
         });
         return genderAthor;
@@ -133,13 +146,22 @@ public class ChangeBook extends JDialog {
 
 
     private JTextField createPriceBook() {
-        JTextField priceBook = new JTextField(20);
+        JTextField priceBook = new JTextField(30);
         create(priceBook);
         priceBook.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                StringTokenizer st = new StringTokenizer(priceBook.getText(),",");
-                book.setPrice(Integer.parseInt(st.nextToken()));
-                bookNew.setPrice(Integer.parseInt(st.nextToken()));
+                if (priceBook.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
+                } else {
+                    StringTokenizer st = new StringTokenizer(priceBook.getText(), ",");
+                    try {
+                        book.setPrice(Integer.parseInt(st.nextToken()));
+                        bookNew.setPrice(Integer.parseInt(st.nextToken()));
+                    } catch (NumberFormatException e1) {
+                        JOptionPane.showMessageDialog(ChangeBook.this,"Ошибка ввода, вам нужно указать цену в цифрах");
+                    }
+                }
             }
         });
         return priceBook;
@@ -147,19 +169,22 @@ public class ChangeBook extends JDialog {
 
 
     private JTextField createDateOfWriting() {
-        JTextField dateOfWriting = new JTextField(20);
+        JTextField dateOfWriting = new JTextField(30);
         create(dateOfWriting);
         dateOfWriting.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                StringTokenizer st = new StringTokenizer(dateOfWriting.getText(),",");
-                book.setDateOfWriting(st.nextToken());
-                bookNew.setDateOfWriting(st.nextToken());
+                if (dateOfWriting.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
+                } else {
+                    StringTokenizer st = new StringTokenizer(dateOfWriting.getText(), ",");
+                    book.setDateOfWriting(st.nextToken());
+                    bookNew.setDateOfWriting(st.nextToken());
+                }
             }
         });
         return dateOfWriting;
     }
-
-
     private void create(JTextField  textField) {
         textField.setFont(new Font("Dialog", Font.PLAIN, 14));
         textField.setHorizontalAlignment(JTextField.LEFT);

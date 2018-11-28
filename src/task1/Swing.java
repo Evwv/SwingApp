@@ -21,16 +21,14 @@ public class Swing extends JFrame {
     public void start() {
         setSize(700,600);
         setLocation(100,100);
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         JPanel grid = new JPanel(new GridLayout(1,2,20,10));
         JButton create = create();
         JButton change= change();
         JButton delete = delete();
-        JButton exit = exit();
         grid.add(create);
         grid.add(change);
         grid.add(delete);
-        grid.add(exit);
         JPanel flow = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         flow.add(grid);
         add(flow,BorderLayout.SOUTH);
@@ -47,7 +45,6 @@ public class Swing extends JFrame {
                 new ChangeBook();
             }
         });
-        dispose();
         change.setBackground(Color.PINK);
 
         return change;
@@ -60,22 +57,9 @@ public class Swing extends JFrame {
                 new DeleteBook();
             }
         });
-        dispose();
         delete.setBackground(Color.PINK);
 
         return delete;
-    }
-
-    public JButton exit() {
-        JButton exit = new JButton("Закрыть программу");
-        exit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(EXIT_ON_CLOSE);
-            }
-        });
-        exit.setBackground(Color.PINK);
-
-        return exit;
     }
 
     public JButton create() {
@@ -83,7 +67,6 @@ public class Swing extends JFrame {
         create.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new CreateBook();
-                dispose();
             }
         });
         create.setBackground(Color.PINK);
