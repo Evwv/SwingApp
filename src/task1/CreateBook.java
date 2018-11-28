@@ -12,7 +12,8 @@ public class CreateBook extends JFrame {
     private Book book = new Book();
 
     public CreateBook() {
-
+        Swing swing = new Swing();
+        swing.start();
         JTextField nameBook = createNameBook();
 
         JTextField nameAuthor = createNameAuthor();
@@ -36,20 +37,35 @@ public class CreateBook extends JFrame {
         jPanel.add(new JLabel("Дата написания:"));
         jPanel.add(dateOfWriting);
 
+
         JButton create = new JButton("Внести книгу в хранилище");
         create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean flag = false;
                 if (nameBook.getText().isEmpty() | nameAuthor.getText().isEmpty()
                         | genderAuthor.getText().isEmpty() | priceBook.getText().isEmpty() | dateOfWriting.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(CreateBook.this, "Заполните все поля");
                 } else {
+                    book.setName(nameBook.getText());
+                    book.setNameAuthor(nameAuthor.getText());
+                    book.setGenderAuthor(genderAuthor.getText());
+                    book.setDateOfWriting(dateOfWriting.getText());
+                    try {
+                        book.setPrice(Integer.parseInt(priceBook.getText()));
+                        flag = true;
+                    } catch (NumberFormatException e1) {
+                        JOptionPane.showMessageDialog(CreateBook.this, "Цена должа быть числом");
+                    }
+                }
+                if (flag) {
                     int x = JOptionPane.showConfirmDialog(CreateBook.this,
                             "Введеная информация вас устраивает? "
                             , "Error", JOptionPane.YES_NO_OPTION);
                     if (x == JOptionPane.YES_OPTION) {
                         JOptionPane.showMessageDialog(CreateBook.this, "Книга добавлена в хранилище");
                         save(book);
+                        swing.close();
                         Swing swing = new Swing();
                         dispose();
                         swing.start();
@@ -68,6 +84,7 @@ public class CreateBook extends JFrame {
         setSize(550,400);
         setLocation(300,300);
         setVisible(true);
+
     }
     private void save(Book book) {
         try(FileWriter writer = new FileWriter("DateBase",true)) {
@@ -81,80 +98,30 @@ public class CreateBook extends JFrame {
     private JTextField createNameAuthor() {
         JTextField nameAuthor = new JTextField(40);
         create(nameAuthor);
-        nameAuthor.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                if (nameAuthor.getText().isEmpty())
-                {
-                    JOptionPane.showMessageDialog(CreateBook.this,"Поле не может быть пустым");
-                } else {
-                    book.setNameAuthor(nameAuthor.getText());
-                }
-            }
-        });
         return nameAuthor;
     }
 
     private JTextField createNameBook() {
         JTextField nameBook = new JTextField(40);
         create(nameBook);
-        nameBook.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (nameBook.getText().isEmpty())
-                {
-                    JOptionPane.showMessageDialog(CreateBook.this,"Поле не может быть пустым");
-                } else {
-                    book.setName(nameBook.getText());
-                }
-            }
-        });
         return nameBook;
     }
 
     private JTextField createGenderAuthor() {
         JTextField genderAthor = new JTextField(40);
         create(genderAthor);
-        genderAthor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (genderAthor.getText().isEmpty())
-                {
-                    JOptionPane.showMessageDialog(CreateBook.this,"Поле не может быть пустым");
-                } else {
-                    book.setGenderAuthor(genderAthor.getText());
-                }
-            }
-        });
         return genderAthor;
     }
 
     private JTextField createPriceBook() {
         JTextField priceBook = new JTextField(40);
         create(priceBook);
-        priceBook.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    book.setPrice(Integer.parseInt(priceBook.getText()));
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(CreateBook.this,"Ошибка ввода, вам нужно указать цену в цифрах");
-                }
-            }
-        });
         return priceBook;
     }
 
     private JTextField createDateOfWriting() {
         JTextField dateOfWriting = new JTextField(40);
         create(dateOfWriting);
-        dateOfWriting.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (dateOfWriting.getText().isEmpty())
-                {
-                    JOptionPane.showMessageDialog(CreateBook.this,"Поле не может быть пустым");
-                } else {
-                    book.setDateOfWriting(dateOfWriting.getText());
-                }
-            }
-        });
         return dateOfWriting;
     }
 

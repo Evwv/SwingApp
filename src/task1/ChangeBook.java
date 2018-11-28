@@ -12,6 +12,8 @@ public class ChangeBook extends JDialog {
     private Book bookNew = new Book();
 
     public ChangeBook() {
+        Swing swing = new Swing();
+        swing.start();
 
         JTextField nameBook = createNameBook();
 
@@ -22,31 +24,56 @@ public class ChangeBook extends JDialog {
         JTextField priceBook = createPriceBook();
 
         JTextField dateOfWriting = createDateOfWriting();
+
         JButton create = new JButton("Сохранить внесенные изменения");
         create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean flag = false;
                 if (nameBook.getText().isEmpty() | nameAuthor.getText().isEmpty()
                         | genderAuthor.getText().isEmpty() | priceBook.getText().isEmpty() | dateOfWriting.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(ChangeBook.this, "Заполните все поля");
                 } else {
-                    String oldBook = book.toString();
-                    String newBook = bookNew.toString();
                     try {
-                        int x = JOptionPane.showConfirmDialog(ChangeBook.this,
-                                "Уверенны что хотите сохранить изменения? "
-                                , "Error", JOptionPane.YES_NO_OPTION);
-                        if (x == JOptionPane.YES_OPTION) {
-                            JOptionPane.showMessageDialog(ChangeBook.this, "Изменения успешно внесены");
-                            save(oldBook, newBook);
-                            Swing swing = new Swing();
-                            dispose();
-                            swing.start();
-                        } else {
-                            JOptionPane.showMessageDialog(ChangeBook.this, "У вас есть возможность исправиться");
+                        StringTokenizer stringTokenizer = new StringTokenizer(priceBook.getText(),",");
+                        int x = Integer.parseInt(stringTokenizer.nextToken());
+                        int y = Integer.parseInt(stringTokenizer.nextToken());
+                        flag = true;
+                    } catch (NumberFormatException n) {
+                        JOptionPane.showMessageDialog(ChangeBook.this,"Цена доджна быть числом");
+                    }
+                    if (flag) {
+                        String str = nameBook.getText() + "," + nameAuthor.getText() + "," + genderAuthor.getText() + "," + priceBook.getText() + "," + dateOfWriting.getText();
+                        StringTokenizer st = new StringTokenizer(str, ",");
+                        while (st.hasMoreTokens()) {
+                            book.setName(st.nextToken());
+                            bookNew.setName(st.nextToken());
+                            book.setNameAuthor(st.nextToken());
+                            bookNew.setNameAuthor(st.nextToken());
+                            book.setGenderAuthor(st.nextToken());
+                            bookNew.setGenderAuthor(st.nextToken());
+                            book.setPrice(Integer.parseInt(st.nextToken()));
+                            bookNew.setPrice(Integer.parseInt(st.nextToken()));
+                            book.setDateOfWriting(st.nextToken());
+                            bookNew.setDateOfWriting(st.nextToken());
                         }
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+                        try {
+                            int x = JOptionPane.showConfirmDialog(ChangeBook.this,
+                                    "Уверенны что хотите сохранить изменения? "
+                                    , "Error", JOptionPane.YES_NO_OPTION);
+                            if (x == JOptionPane.YES_OPTION) {
+                                JOptionPane.showMessageDialog(ChangeBook.this, "Изменения успешно внесены");
+                                save(book.toString(), bookNew.toString());
+                                swing.close();
+                                dispose();
+                                Swing swing = new Swing();
+                                swing.start();
+                            } else {
+                                JOptionPane.showMessageDialog(ChangeBook.this, "У вас есть возможность исправиться");
+                            }
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }
             }
@@ -90,97 +117,34 @@ public class ChangeBook extends JDialog {
         outputFile.renameTo(sourceFile);
     }
 
+
     private JTextField createNameAuthor() {
         JTextField nameAuthor = new JTextField(30);
         create(nameAuthor);
-        nameAuthor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (nameAuthor.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
-                } else {
-                    StringTokenizer st = new StringTokenizer(nameAuthor.getText(), ",");
-                    book.setNameAuthor(st.nextToken());
-                    bookNew.setNameAuthor(st.nextToken());
-                }
-            }
-        });
         return nameAuthor;
     }
 
     private JTextField createNameBook() {
         JTextField nameBook = new JTextField(30);
         create(nameBook);
-        nameBook.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (nameBook.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
-                } else {
-                    StringTokenizer st = new StringTokenizer(nameBook.getText(), ",");
-                    book.setName(st.nextToken());
-                    bookNew.setName(st.nextToken());
-                }
-            }
-        });
         return nameBook;
     }
 
-
     private JTextField createGenderAuthor() {
-        JTextField genderAthor = new JTextField(30);
-        create(genderAthor);
-        genderAthor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (genderAthor.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
-                } else {
-                    StringTokenizer st = new StringTokenizer(genderAthor.getText(), ",");
-                    book.setGenderAuthor(st.nextToken());
-                    bookNew.setGenderAuthor(st.nextToken());
-                }
-            }
-        });
-        return genderAthor;
+        JTextField genderAuthor = new JTextField(30);
+        create(genderAuthor);
+        return genderAuthor;
     }
-
 
     private JTextField createPriceBook() {
         JTextField priceBook = new JTextField(30);
         create(priceBook);
-        priceBook.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (priceBook.getText().isEmpty())
-                {
-                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
-                } else {
-                    StringTokenizer st = new StringTokenizer(priceBook.getText(), ",");
-                    try {
-                        book.setPrice(Integer.parseInt(st.nextToken()));
-                        bookNew.setPrice(Integer.parseInt(st.nextToken()));
-                    } catch (NumberFormatException e1) {
-                        JOptionPane.showMessageDialog(ChangeBook.this,"Ошибка ввода, вам нужно указать цену в цифрах");
-                    }
-                }
-            }
-        });
         return priceBook;
     }
-
 
     private JTextField createDateOfWriting() {
         JTextField dateOfWriting = new JTextField(30);
         create(dateOfWriting);
-        dateOfWriting.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (dateOfWriting.getText().isEmpty())
-                {
-                    JOptionPane.showMessageDialog(ChangeBook.this,"Поле не может быть пустым");
-                } else {
-                    StringTokenizer st = new StringTokenizer(dateOfWriting.getText(), ",");
-                    book.setDateOfWriting(st.nextToken());
-                    bookNew.setDateOfWriting(st.nextToken());
-                }
-            }
-        });
         return dateOfWriting;
     }
     private void create(JTextField  textField) {

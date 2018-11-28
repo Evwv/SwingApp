@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.StringTokenizer;
 
+import static java.lang.Thread.sleep;
+
 public class Swing extends JFrame {
 
     public static void main(String[] args) {
@@ -43,6 +45,7 @@ public class Swing extends JFrame {
         change.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new ChangeBook();
+                dispose();
             }
         });
         change.setBackground(Color.PINK);
@@ -55,6 +58,7 @@ public class Swing extends JFrame {
         delete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new DeleteBook();
+                dispose();
             }
         });
         delete.setBackground(Color.PINK);
@@ -67,6 +71,7 @@ public class Swing extends JFrame {
         create.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new CreateBook();
+                dispose();
             }
         });
         create.setBackground(Color.PINK);
@@ -97,6 +102,10 @@ public class Swing extends JFrame {
             e.fillInStackTrace();
         }
         return bookModel;
+    }
+
+    public void close() {
+        dispose();
     }
 
 
