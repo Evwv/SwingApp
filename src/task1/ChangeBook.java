@@ -25,7 +25,7 @@ public class ChangeBook extends JDialog {
 
         JButton create = create();
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        jPanel.add(new JLabel("Формат ввод~>Старое значение,Новое значение"));
+        jPanel.add(new JLabel("Формат ввода~>Старое значение,Новое значение"));
         jPanel.add(new JLabel("Старое название книги,Новое название:"));
         jPanel.add(nameBook);
         jPanel.add(new JLabel("Старое имя автора,Новое имя:"));
