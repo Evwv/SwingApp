@@ -36,7 +36,32 @@ public class CreateBook extends JFrame {
         jPanel.add(new JLabel("Дата написания:"));
         jPanel.add(dateOfWriting);
 
-        JButton create = create();
+        JButton create = new JButton("Внести книгу в хранилище");
+        create.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (nameBook.getText().isEmpty() | nameAuthor.getText().isEmpty()
+                        | genderAuthor.getText().isEmpty() | priceBook.getText().isEmpty() | dateOfWriting.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(CreateBook.this, "Заполните все поля");
+                } else {
+                    int x = JOptionPane.showConfirmDialog(CreateBook.this,
+                            "Введеная информация вас устраивает? "
+                            , "Error", JOptionPane.YES_NO_OPTION);
+                    if (x == JOptionPane.YES_OPTION) {
+                        JOptionPane.showMessageDialog(CreateBook.this, "Книга добавлена в хранилище");
+                        save(book);
+                        Swing swing = new Swing();
+                        dispose();
+                        swing.start();
+                    } else {
+                        JOptionPane.showMessageDialog(CreateBook.this, "У вас есть возможность исправиться");
+                    }
+                }
+            }
+
+        });
+        create.setBackground(Color.PINK);
+
         jPanel.add(create,BorderLayout.AFTER_LAST_LINE);
 
         setContentPane(jPanel);
@@ -53,31 +78,6 @@ public class CreateBook extends JFrame {
             ew.fillInStackTrace();
         }
     }
-
-    private JButton create() {
-        JButton create = new JButton("Внести книгу в хранилище");
-        create.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int x = JOptionPane.showConfirmDialog(CreateBook.this,
-                        "Введеная информация вас устраивает? "
-                        ,"Error",JOptionPane.YES_NO_OPTION);
-                if (x == JOptionPane.YES_OPTION) {
-                    JOptionPane.showMessageDialog(CreateBook.this,"Книга добавлена в хранилище");
-                    save(book);
-                    Swing swing = new Swing();
-                    dispose();
-                    swing.start();
-                } else {
-                    JOptionPane.showMessageDialog(CreateBook.this,"У вас есть возможность исправиться");
-                }
-            }
-        });
-        create.setBackground(Color.PINK);
-
-        return create;
-    }
-
     private JTextField createNameAuthor() {
         JTextField nameAuthor = new JTextField(40);
         create(nameAuthor);

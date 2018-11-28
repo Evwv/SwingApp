@@ -19,21 +19,25 @@ public class DeleteBook extends JDialog {
         delete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    int x = JOptionPane.showConfirmDialog(DeleteBook.this,
-                            "Вы действительно хотите удалить эту книгу? "
-                            ,"Error",JOptionPane.YES_NO_OPTION);
-                    if (x == JOptionPane.YES_OPTION) {
-                        JOptionPane.showMessageDialog(DeleteBook.this,"Книга удалена");
-                        Delete(nameBook.getText(),nameAuthor.getText());
-                        Swing swing = new Swing();
-                        dispose();
-                        swing.start();
-                    } else {
-                        JOptionPane.showMessageDialog(DeleteBook.this,"Мы спасли вас от случайного удаления");
+                if (nameBook.getText().isEmpty() | nameAuthor.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(DeleteBook.this,"Заполните все поля ");
+                } else {
+                    try {
+                        int x = JOptionPane.showConfirmDialog(DeleteBook.this,
+                                "Вы действительно хотите удалить эту книгу? "
+                                , "Error", JOptionPane.YES_NO_OPTION);
+                        if (x == JOptionPane.YES_OPTION) {
+                            JOptionPane.showMessageDialog(DeleteBook.this, "Книга удалена");
+                            Delete(nameBook.getText(), nameAuthor.getText());
+                            Swing swing = new Swing();
+                            dispose();
+                            swing.start();
+                        } else {
+                            JOptionPane.showMessageDialog(DeleteBook.this, "Мы спасли вас от случайного удаления");
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
                 }
             }
         });

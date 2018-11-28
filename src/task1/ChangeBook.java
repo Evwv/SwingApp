@@ -22,8 +22,36 @@ public class ChangeBook extends JDialog {
         JTextField priceBook = createPriceBook();
 
         JTextField dateOfWriting = createDateOfWriting();
-
-        JButton create = create();
+        JButton create = new JButton("Сохранить внесенные изменения");
+        create.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (nameBook.getText().isEmpty() | nameAuthor.getText().isEmpty()
+                        | genderAuthor.getText().isEmpty() | priceBook.getText().isEmpty() | dateOfWriting.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(ChangeBook.this, "Заполните все поля");
+                } else {
+                    String oldBook = book.toString();
+                    String newBook = bookNew.toString();
+                    try {
+                        int x = JOptionPane.showConfirmDialog(ChangeBook.this,
+                                "Уверенны что хотите сохранить изменения? "
+                                , "Error", JOptionPane.YES_NO_OPTION);
+                        if (x == JOptionPane.YES_OPTION) {
+                            JOptionPane.showMessageDialog(ChangeBook.this, "Изменения успешно внесены");
+                            save(oldBook, newBook);
+                            Swing swing = new Swing();
+                            dispose();
+                            swing.start();
+                        } else {
+                            JOptionPane.showMessageDialog(ChangeBook.this, "У вас есть возможность исправиться");
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+        create.setBackground(Color.PINK);
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         jPanel.add(new JLabel("Формат ввода~>Старое значение,Новое значение"));
         jPanel.add(new JLabel("Старое название книги,Новое название:"));
@@ -60,36 +88,6 @@ public class ChangeBook extends JDialog {
         writer.close();
         sourceFile.delete();
         outputFile.renameTo(sourceFile);
-    }
-
-    private JButton create() {
-        JButton create = new JButton("Сохранить внесенные изменения");
-        create.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String oldBook = book.toString();
-                String newBook = bookNew.toString();
-                try {
-                    int x = JOptionPane.showConfirmDialog(ChangeBook.this,
-                                "Уверенны что хотите сохранить изменения? "
-                            ,"Error",JOptionPane.YES_NO_OPTION);
-                    if (x == JOptionPane.YES_OPTION) {
-                        JOptionPane.showMessageDialog(ChangeBook.this,"Изменения успешно внесены");
-                        save(oldBook,newBook);
-                        Swing swing = new Swing();
-                        dispose();
-                        swing.start();
-                    } else {
-                        JOptionPane.showMessageDialog(ChangeBook.this,"У вас есть возможность исправиться");
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-        create.setBackground(Color.PINK);
-
-        return create;
     }
 
     private JTextField createNameAuthor() {
